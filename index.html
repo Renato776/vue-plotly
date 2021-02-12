@@ -1,0 +1,50 @@
+<!-- Ejemplo minimalista de como usar Vue y Plotly para generar 
+una grafica. Vue se carga desde un cdn asi que no hay necesidad de
+descargar nada! es completamente compatible con HTML normal e 
+incluso JQuery, pero Vue hace lo que JQuery haria y mejor
+asi que es aconsejable no importar ambas en alguna pagina. -->
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+
+	<title> Minimal graph </title>
+
+	<style>
+		.graph {
+			width: auto;
+			height: 400px;
+		}
+	</style>
+
+</head>
+<body>
+  <div id="graphs">
+    <div v-for="(i,k) in inscritos" v-bind:id = "'inscritos'+k" 
+	 class="graph">
+		<!-- Here, i holds the value of the Object property and
+	  		k the name of the key for that property. -->
+    </div>
+  </div>
+</body>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+	<script src="plotly.js"></script>
+	<script src="data.js"></script>
+	<script>
+		const app = new Vue({
+			el: '#graphs',
+			data: raw_graphs
+		}); //Don't forget to initialize the app's container.
+		   //If you don't, the v-directives won't have any effect!
+	</script>
+	<script>
+	function newChart(placeholder,data,layout){
+	    Plotly.newPlot(placeholder, data,layout); 
+	}
+	for( const i in raw_graphs.inscritos ){
+	    const { data, layout } = raw_graphs.inscritos[i]
+	    newChart('inscritos'+i,data,layout);
+	}
+	</script>
+</html>
